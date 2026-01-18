@@ -81,10 +81,6 @@
       cursor: pointer;
     }
 
-    .ver-btn:hover {
-      background-color: #ff1c1c;
-    }
-
     .edit {
       position: absolute;
       top: 5px;
@@ -125,9 +121,9 @@
     <!-- CARD -->
     <div class="card">
       <label>
-        <img id="img1" src="https://i.imgur.com/8RKXAIV.jpg">
+        <img id="img1">
         <span class="edit">Portada</span>
-        <input type="file" accept="image/*" onchange="changeImage(event, 'img1')">
+        <input type="file" accept="image/*" onchange="guardarPortada(event, 'img1')">
       </label>
 
       <p>Los Simpson</p>
@@ -144,51 +140,44 @@
 <script>
   const player = document.getElementById("videoPlayer");
 
-  // Reproducir video
   function playVideo(url) {
     player.src = url;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Cambiar portada y GUARDARLA
-  function changeImage(event, imgId) {
+  // 👉 GUARDAR PORTADA
+  function guardarPortada(event, imgId) {
     const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = function(e) {
-      const base64 = e.target.result;
-      document.getElementById(imgId).src = base64;
-      localStorage.setItem("portada_" + imgId, base64);
+    reader.onload = () => {
+      const img = document.getElementById(imgId);
+      img.src = reader.result;
+      localStorage.setItem("portada_" + imgId, reader.result);
     };
     reader.readAsDataURL(file);
   }
 
-  // Cargar portadas guardadas al iniciar
-  window.onload = () => {
+  // 👉 CARGAR PORTADAS GUARDADAS
+  function cargarPortadas() {
     const img = document.getElementById("img1");
-    const saved = localStorage.getItem("portada_img1");
-    if (saved) {
-      img.src = saved;
-    }
-  };
+    const guardada = localStorage.getItem("portada_img1");
+    img.src = guardada || "https://i.imgur.com/8RKXAIV.jpg";
+  }
 
-  // Pantalla completa horizontal (YouTube)
+  // 👉 CARGAR AL INICIAR
+  document.addEventListener("DOMContentLoaded", cargarPortadas);
+
+  // 👉 FULLSCREEN HORIZONTAL
   document.addEventListener("fullscreenchange", () => {
     if (document.fullscreenElement) {
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock("landscape").catch(() => {});
-      }
+      screen.orientation?.lock("landscape").catch(() => {});
     } else {
-      if (screen.orientation && screen.orientation.unlock) {
-        screen.orientation.unlock();
-      }
+      screen.orientation?.unlock();
     }
   });
 </script>
 
 </body>
 </html>
-
-
-      
