@@ -39,6 +39,7 @@
       border: none;
       border-radius: 8px;
       margin-bottom: 25px;
+      background: black;
     }
 
     .grid {
@@ -141,8 +142,10 @@
 </div>
 
 <script>
+  const player = document.getElementById("videoPlayer");
+
   function playVideo(url) {
-    document.getElementById("videoPlayer").src = url;
+    player.src = url;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -156,6 +159,19 @@
     };
     reader.readAsDataURL(file);
   }
+
+  // 👉 FORZAR HORIZONTAL EN PANTALLA COMPLETA (como YouTube)
+  document.addEventListener("fullscreenchange", () => {
+    if (document.fullscreenElement) {
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock("landscape").catch(() => {});
+      }
+    } else {
+      if (screen.orientation && screen.orientation.unlock) {
+        screen.orientation.unlock();
+      }
+    }
+  });
 </script>
 
 </body>
