@@ -33,24 +33,20 @@
       padding: 20px;
     }
 
-    /* REPRODUCTOR */
     .player iframe {
       width: 100%;
       height: 220px;
       border: none;
       border-radius: 8px;
       margin-bottom: 25px;
-      background: black;
     }
 
-    /* GRID */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 15px;
     }
 
-    /* CARD */
     .card {
       background-color: #222;
       border-radius: 6px;
@@ -70,7 +66,6 @@
       font-size: 14px;
     }
 
-    /* BOTÓN VER */
     .ver-btn {
       width: 90%;
       margin: 6px auto 10px;
@@ -89,7 +84,6 @@
       background-color: #ff1c1c;
     }
 
-    /* EDITAR PORTADA */
     .edit {
       position: absolute;
       top: 5px;
@@ -125,13 +119,10 @@
     <iframe id="videoPlayer" src="" allowfullscreen></iframe>
   </div>
 
-  <!-- CONTENIDO -->
   <div class="grid">
 
     <!-- CARD -->
     <div class="card">
-
-      <!-- PORTADA -->
       <label>
         <img id="img1" src="https://i.imgur.com/8RKXAIV.jpg">
         <span class="edit">Portada</span>
@@ -140,27 +131,21 @@
 
       <p>Los Simpson</p>
 
-      <!-- BOTÓN VER -->
       <button class="ver-btn"
-        onclick="playVideo('https://TU_LINK_EMBED_AQUI')">
+        onclick="playVideo('https://TU_LINK_AQUI')">
         VER
       </button>
-
     </div>
 
   </div>
 </div>
 
 <script>
-  const player = document.getElementById("videoPlayer");
-
-  // Reproducir video
   function playVideo(url) {
-    player.src = url;
+    document.getElementById("videoPlayer").src = url;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Cambiar portada desde galería
   function changeImage(event, imgId) {
     const file = event.target.files[0];
     if (!file) return;
@@ -171,20 +156,8 @@
     };
     reader.readAsDataURL(file);
   }
-
-  // PANTALLA COMPLETA EN HORIZONTAL (como YouTube)
-  document.addEventListener("fullscreenchange", () => {
-    if (document.fullscreenElement) {
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock("landscape").catch(() => {});
-      }
-    } else {
-      if (screen.orientation && screen.orientation.unlock) {
-        screen.orientation.unlock();
-      }
-    }
-  });
 </script>
 
 </body>
 </html>
+      
