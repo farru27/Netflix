@@ -144,23 +144,36 @@
 <script>
   const player = document.getElementById("videoPlayer");
 
+  // Reproducir video
   function playVideo(url) {
     player.src = url;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // Cambiar portada y GUARDARLA
   function changeImage(event, imgId) {
     const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = function(e) {
-      document.getElementById(imgId).src = e.target.result;
+      const base64 = e.target.result;
+      document.getElementById(imgId).src = base64;
+      localStorage.setItem("portada_" + imgId, base64);
     };
     reader.readAsDataURL(file);
   }
 
-  // 👉 FORZAR HORIZONTAL EN PANTALLA COMPLETA (como YouTube)
+  // Cargar portadas guardadas al iniciar
+  window.onload = () => {
+    const img = document.getElementById("img1");
+    const saved = localStorage.getItem("portada_img1");
+    if (saved) {
+      img.src = saved;
+    }
+  };
+
+  // Pantalla completa horizontal (YouTube)
   document.addEventListener("fullscreenchange", () => {
     if (document.fullscreenElement) {
       if (screen.orientation && screen.orientation.lock) {
@@ -176,4 +189,6 @@
 
 </body>
 </html>
+
+
       
